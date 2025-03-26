@@ -37,65 +37,66 @@ const useEntrada = () => {
             url: urlApi,
             data: parametros,
             headers: {
-                "Content-Type": "aplication/json",
-                "Accept": "Aplication/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             }
         }
-        await axios (obj).then(()=>{
-            let mensaje=''
-            if (metodo==='POST'){
-                mensaje='Se guardo el empleado'
-            }else if(metodo==='DELETE'){
-                mensaje='Se elimino el empleado'
+        await axios(obj).then(() => {
+            let mensaje = ''
+            if (metodo === 'POST') {
+                mensaje = 'Se guardo el empleado'
+            } else if (metodo === 'DELETE') {
+                mensaje = 'Se elimino el empleado'
             }
             alertaSuccess(mensaje)
             document.getElementById('btnCerrarModal').click()
             getEmpleados()
-        }).catch((error)=>{
+        }).catch((error) => {
             alertaError(error.response.data.message)
 
         })
     }
-    const guardarEditarEmpleado=()=>{
-        let payload, metodo,urlAxios
-        if(nombre===''){
+    const guardarEditarEmpleado = () => {
+        let payload, metodo, urlAxios
+        if (nombre === '') {
             alertaWarning('Nombre del empleado en Blanco', nombre)
-        }else if(dni===''){
+        } else if (dni === '') {
             alertaWarning('DNI del empleado en Blanco', dni)
-        }else if(direccion===''){
-            alertaWarning('DNI del empleado en Blanco', direccion)
-        }else if(email===''){
-            alertaWarning('DNI del empleado en Blanco', email)
-        }else{
-            payload={
-                nombre:nombre,
-                dni:dni,
-                direccion:direccion,
-                email:email
+        } else if (direccion === '') {
+            alertaWarning('Direccion del empleado en Blanco', direccion)
+        } else if (email === '') {
+            alertaWarning('Email del empleado en Blanco', email)
+        } else {
+            payload = {
+                nombre: nombre,
+                dni: dni,
+                direccion: direccion,
+                email: email
             }
-            if (operacion===1){
-                metodo='POST'
-                urlAxios=url
+            if (operacion === 1) {
+                metodo = 'POST'
+                urlAxios = url
             }
-            enviarSolicitud(urlAxios,metodo,payload)
+            enviarSolicitud(urlAxios, metodo, payload)
+
         }
-
+        console.log("Enviando:", payload);
     }
-    const deleteEmpleado=(id)=>{
+    const deleteEmpleado = (id) => {
         Swal.fire({
-            title:'Esta seguro de eliminar empleado?',
-            icon:'question',
-            text:'No hay retorno',
-            showCancelButton:true,
-            confirmButtonText:'Si, eliminar',
-            cancelButtonText:'Cancelar'
+            title: 'Esta seguro de eliminar empleado?',
+            icon: 'question',
+            text: 'No hay retorno',
+            showCancelButton: true,
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar'
 
-        }).then((result)=>{
-            if(result.isConfirmed){
+        }).then((result) => {
+            if (result.isConfirmed) {
                 setNombre(nombre)
-                enviarSolicitud(`${url}/${nombre}`,'DELETE')
+                enviarSolicitud(`${url}/${id}`, 'DELETE')
             }
-        }).catch((error)=>{
+        }).catch((error) => {
             alertaError(error)
         })
 
